@@ -1,0 +1,65 @@
+\chapter{PQ-TESLA}
+\label{PQ-TESLA}
+
+
+% TESLA to be implemented as a standalone library, which could reside either in the network, transport, or application layer. However, incorporating TESLA within MESP implies usage in the network layer.
+
+\section{Pre-requisites - Time synchronization}
+TESLA relies upon timing of packets, that is, TESLA requires knowing the arrival time of incoming packets. TESLA SHOULD NOT be deployed on top of a protocol or layer which will aggressively buffer packets and hides the true packet arrival time, e.g. TCP. \href{http://users.ece.cmu.edu/~adrian/tesla/draft-ietf-msec-tesla-spec-00.txt}{Ref:TESLASecurity}
+The security offered by TESLA relies heavily on time. Therefore the session's sender and each receiver need to be time synchronized in a secure way. We also replace ECDSA signature with a hash-based signature, K2SN-MSS to provide post-quantum security to the original.
+
+Time synchronization can be direct or indirect as mentioned in \cite{TESLAuseACMNORM}. When direct time synchronization (see Fig \ref{timeSync}), which is borrowed from \cite{perrig2000efficient},is used, each receiver asks the sender for a time synchronization. The source then directly answers to each request, signing the reply. When indirect time synchronization is used, the source and each receiver must synchronize securely via an external time reference. Implementation of PQ-TESLA requires that this message must be signed with hash-based signature to protect it from adversary with access to quantum computers.
+
+Time synchronization is discussed in  details in section \ref{TimeSyncronization}.
+
+
+
+
+\section{Threat model }
+We design our schemes to be secure against a powerful adversary with the following capabilities mentioned in \cite{perrig2000efficient} and additional potentiality of access to a quantum computer.
+\begin{enumerate}
+    \item Full control over the network. The adversary can eavesdrop, capture, drop, resend, delay, and alter packets.
+    \item The adversary has access to a fast network with negligible delay.
+    \item In addition, the adversary’s computational resources may be very large, but not unbounded. In particular, this means that the adversary can perform efficient computations, such as computing a reasonable number of pseudo-random function applications and MACs with negligible delay. Nonetheless the adversary cannot invert a pseudorandom function (or distinguish it from a random function) with non-negligible probability.
+    \item At some point later in time the attacker gains access to a quantum computer capable of running Shor’s quantum algorithm in polynomial time.
+\end{enumerate}
+
+
+\section{Security Guarantee }
+In \cite{perrig2000efficient} Perrig $\etal$  states that TESLA is secure as long as hash functions or HMACs are secure and clock of receiver is synchronized with the sender securely and the initialization data is sent using a secure signature scheme. All of the mentioned ingredients of TESLA are secure against a quantum computer except a digital signature, whse popular choices are RSA and ECDSA. Therefore, PQ-TESLA provides security against quantum computing capacities of an adversary, by ust replacing state-of-art digital signatures with a hash-based digital signature.
+
+
+\section{TESLA crypto components }
+
+
+
+\subsection{HMAC}
+Message Authentication Codes (MACs). A function family $\{f_{k}\}_{k \in \{0,1\}^{l}}$ (where l is key length and security parameter) is a secure MAC family if any adversary $\mathcal{A}$ (whose resources are bounded by a polynomial in $l$) succeeds in the following game only with negligible probability. A random-bit $l$ key is chosen; next
+$\mathcal{A}$ can adaptively choose messages $m_{1} \cdots m_{n}$ and receive the corresponding MAC values $f_{k}(m_{1}) \cdots f_{k}(m_{n})$. $\mathcal{A}$ succeeds if
+it manages to forge the MAC, i.e., if it outputs a pair $m,t$ where $m!=m_{1}\cdots m_{n}$ and $t=f_{k}(m)$. HMACs and hash functions that use SHA256 with 256-bit key are considered to be safe even against quantum attacks giving 256 security.
+
+
+
+\subsection{Hash-based Digital Signature}
+ECDSA Signature is replaced with hash-based signature K2SN-MSS to sgn the initialization message of TESLA, which provides authenticity to future packets in the data stream. The receiver is synchronized after receiving a synchronization packet from the sender, which is signed by \textit{K2SN-OTS} instance of K2SN-MSS.
+
+\subsubsection{Modified Key Generation of K2SN-MSS}
+ \textit{K2SN-OTS} can be used for signing each synchronization packet, that is one signature per session. Assuming the sender has done KeyGen and possess secret key $sk$, which he keeps secret to himself and public key $\mathcal{PK}$, which is published. The implementation of K2SN-MSS, can sign upto $2^{h}$ messages. \\
+Every-time a new session is established, the sender, that already has secret key $sk$ uses it with new index \textit{i} to produce secret key of the $i^{th}$ \textit{K2SN-OTS} instance,$sk_{i}$. This Key generation is same as first step in Signature generation of K2SN-MSS mentioned in \cite{karati2019k2sn}. 
+User inputs index $i$ to get the $sk_{i}$ from $sk$ secret it already has.\\
+$KeyGen(sk,i)$ has following input and output: 
+
+\textbf{Input : } $sk$, $i$
+
+\textbf{Output : } $sk_{i}$
+
+
+\section{Security Analysis of PQ TESLA}
+
+
+
+
+
+
+
+

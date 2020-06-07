@@ -1,0 +1,81 @@
+\chapter{Implementation}
+
+\section{Implemented Protocols}
+
+\subsection{DTLS}
+
+\subsubsection{Stateful TinyDTLS}
+DTLS uses a simple timeout and retransmission scheme with the following state machine.  Because DTLS clients send the first message (ClientHello), they start in the PREPARING state.  DTLS servers start in the WAITING state, but with empty buffers and no retransmit timer.\\
+Because DTLS clients send the first message (ClientHello), they start in the PREPARING state.  DTLS servers start in the WAITING state, but with empty buffers and no retransmit timer. When the server desires a rehandshake, it transitions from the FINISHED state to the PREPARING state to transmit the HelloRequest. When the client receives a HelloRequest it transitions from FINISHED to PREPARING to transmit the ClientHello.
+
+
+The state machine has three basic states - \\
+\begin{enumerate}
+    \item  In the PREPARING state the implementation does whatever computations are necessary to prepare the next flight of messages.  It then buffers them up for transmission (emptying the buffer first) and enters the SENDING state.
+
+\item In the SENDING state, the implementation transmits the buffered flight of messages.  Once the messages have been sent, the implementation then enters the FINISHED state if this is the last flight in the handshake.  Or, if the implementation expects to receive more messages, it sets a retransmit timer and then enters the WAITING state.
+
+\item There are three ways to exit the WAITING state: (1) The retransmit timer expires, (2) The implementation reads a retransmitted flight from the peer, (3)The implementation receives the next flight of messages.
+\end{enumerate}  
+
+
+\subsection{DTLS-TESLA}
+
+\subsection{PQ-DTLS-TESLA}
+\subsubsection{Usage of K2SN-MSS} I have tried to use K2SN signature in tinyDTLS implementation and it works perfectly. I had make some changes in makefile and header files in dtls.c file of tinyDTLS that calls the signature scheme. Currently, storage of state and keys are in application memory.
+
+\section{Implementation and Issues }
+Like  TLS,  DTLS  also  has a  base  protocol  called  Record Layer,  and  four  sub-protocols  on  top,  namely  Handshake, ChangeCipherSpec,  Alert  Protocol and the  application  data protocol as explained in \cite{rescorla2012rfc}. The required security features for a specific  smart  object  application in  IoT depend  on  various factors such as the underlying communication architecture and the threats to be mitigated
+
+Tinydtls \cite{tinydtls1}\cite{tinydtls2} is a library for Datagram Transport Layer Security (DTLS) covering both the client and the server state machine. It is implemented in C and provides support for the mandatory cipher suites specified in \href{https://tools.ietf.org/html/rfc7252}{CoAP}.
+
+Tinydtls provides a light-weight implementation of the DTLS protocol that can be used in devices with tight memory constraints, i.e. in the order of 100 KiB flash memory and about 10 KiB RAM. The cipher suites supported by tinydtls are limited to \{TLS\_PSK\_WITH\_AES\_128\_CCM\_8, TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\} that are mandatory-to-implement for CoAP. 
+
+In scope:
+\begin{enumerate}
+    \item Integration of new cipher suites as they become available and are recommended for use with CoAP, e.g. the proposed $TLS\_PSK\_WITH\_AES\_128\_CCM\_8$ to achieve forward secrecy in the PSK mode of CoAP.
+    
+    \item Implementation of DTLS extensions that are useful in constrained environments, e.g. the maximum fragment length negotiation specified in RFC6066.
+    
+    \item Provide an interface for using hardware acceleration for cryptographic computations such as AES or ECC.
+    
+    \item Include optional lua binding for rapid prototyping of DTLS-enabled applications.
+    
+    \item Optimize memory usage and runtime behavior. Improve code quality, including error handling and robustness.
+\end{enumerate}
+
+\subsection{Useful data-structure}
+
+\begin{table}[H]
+\caption{Notations Definitions }
+\label{cryptoTable}
+\begin{tabular}{ |p{5cm}|p{10cm}|}
+\hline
+\hline
+\textbf{Classes} & \textbf{Descriptions} \\
+ \hline
+ \hline
+\_\_session\_t & Multi-purpose address abstraction \\ 
+ \hline 
+aes128\_ccm\_t &	Crypto context for TLS\_PSK\_WITH\_AES\_128\_CCM\_8 cipher suite\\
+\hline
+dtls\_client\_hello\_t &	Structure of the Client Hello message\\
+\hline 
+dtls\_context\_t &	Holds global information of the DTLS engine\\
+\hline 
+dtls\_handler\_t &	This structure contains callback functions used by tinydtls to communicate with the application\\
+\hline 
+dtls\_handshake\_header\_t	&Header structure for the DTLS handshake protocol\\
+\hline 
+dtls\_hello\_verify\_t	& Structure of the Hello Verify Request\\
+\hline 
+dtls\_hmac\_context\_t	& Context for HMAC generation\\
+\hline 
+dtls\_peer\_t &	Holds security parameters, local state and the transport address for each peer\\
+\hline 
+dtls\_record\_header\_t &Generic header structure of the DTLS record layer\\
+ \hline
+\end{tabular}\\
+
+\end{table}
+  

@@ -1,0 +1,37 @@
+\addvspace {10pt}
+\addvspace {10pt}
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces No $p_{1}$ after $p_{2}$ \relax }}{12}{figure.caption.16}% 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Authorization Code Grant\relax }}{13}{figure.caption.18}% 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces JWT example\relax }}{15}{figure.caption.21}% 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Header of Token in Figure \ref {token}\relax }}{16}{figure.caption.23}% 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Payload of Token in Figure \ref {token}\relax }}{17}{figure.caption.25}% 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Web API\relax }}{22}{figure.caption.30}% 
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Authorization enforcement process with external context.\relax }}{32}{figure.caption.32}% 
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Example of the protocol flow with both usage constraints\relax }}{44}{figure.caption.33}% 
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Equivalent Centralized System\relax }}{49}{figure.caption.34}% 
+\addvspace {10pt}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces The flow of a request through a Node.js web application \relax }}{57}{figure.caption.56}% 
+\contentsline {figure}{\numberline {7.2}{\ignorespaces The flow of a request through Express middleware functions\relax }}{58}{figure.caption.57}% 
+\contentsline {figure}{\numberline {7.3}{\ignorespaces AS Functional Points\relax }}{59}{figure.caption.60}% 
+\contentsline {figure}{\numberline {7.4}{\ignorespaces RS Functional Points\relax }}{60}{figure.caption.61}% 
+\contentsline {figure}{\numberline {7.5}{\ignorespaces RS responds with "Heart" data\relax }}{73}{figure.caption.76}% 
+\addvspace {10pt}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces The flow of a request through a Node.js web application \relax }}{75}{figure.caption.78}% 
+\contentsline {figure}{\numberline {8.2}{\ignorespaces The flow of a request through Express middleware functions\relax }}{76}{figure.caption.79}% 
+\contentsline {figure}{\numberline {8.3}{\ignorespaces AS Functional Points\relax }}{77}{figure.caption.82}% 
+\contentsline {figure}{\numberline {8.4}{\ignorespaces RS Functional Points\relax }}{78}{figure.caption.83}% 
+\contentsline {figure}{\numberline {8.5}{\ignorespaces RS responds with "Heart" data\relax }}{91}{figure.caption.98}% 
+\addvspace {10pt}
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Multiplicative overhead of AS : RTT in Our solution compared to OAuth 2.0 \relax }}{100}{figure.caption.111}% 
+\contentsline {figure}{\numberline {9.2}{\ignorespaces Multiplicative overhead of RS : RTT in Our solution compared to OAuth 2.0 \relax }}{103}{figure.caption.118}% 
+\addvspace {10pt}
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Multiplicative overhead of AS : RTT in Our solution compared to OAuth 2.0 \relax }}{112}{figure.caption.131}% 
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Multiplicative overhead of RS : RTT in Our solution compared to OAuth 2.0 \relax }}{115}{figure.caption.138}% 
+\addvspace {10pt}
+\addvspace {10pt}

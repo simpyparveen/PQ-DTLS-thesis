@@ -1,0 +1,38 @@
+%\fancyhead[RO,LE]{\thepage}
+%\fancyfoot{}
+
+\chapter{Appendix}
+% Miscellaneous
+\section{Key Storage}
+In a typical computing environment, a private key will be stored in non-volatile media such as on a file in a hard drive. Before it is used to sign a message, it will be read into an application's Random Access Memory (RAM). After a signature is generated, the value of the private key will need to be updated by writing the new value of the private key into non-volatile storage. It is essential for security that the application ensure that this value is actually written into that storage.
+
+K2SN-MSS signature schemes, like all N-time signature schemes, requires that the signer maintain state across different invocations of the signing algorithm, to ensure that none of the component one-time signature systems are used more than once. This section calls out some important practical considerations around this statefulness.
+
+
+Conversion of the private key to a PKCS12 file \footnote{PKCS \#12 defines an archive file format for storing many cryptography objects as a single file. It is commonly used to bundle a private key with its X.509 certificate or to bundle all the members of a chain of trust.}, which is a nice little container for private keys and then we can have a few options for storing the private key:
+\begin{itemize}
+    \item \textbf{In your machine's key store} : This is not as safe as the user store, as it can be accessed by any user if they have enough permissions.
+    \item \textbf{In the current user's key store} : This is more secure than the machine store, because it's protected by windows ACL's. But it can play havoc on you if passwords and permissions are changed for that particular user.
+    \item \textbf{In the registry} : You can use ACL's to protect the registry key \footnote{The Windows security model enables you to control access to registry keys.}.
+    \item \textbf{On a smart card} : The CryptoAPI has native support for this. Smart cards can be removed and secured. The keys are never stored on the machine, so it is a very secure solution.
+    
+\end{itemize}
+
+If cryptographic hardware or the registry can’t be used , keystore (described above), but we still want to enhance security (rather than just having the keystore file sitting on your machine), we can store these files on a removable thumb drive that we keep in a secure location. Storage of private key on hardware can offer increased security. However, there is a big difference between using cryptographic tokens or smart cards and standard flash or thumb drives. With cryptographic hardware, the key is generated on the hardware itself and is not exportable. This means the private key never leaves the device, making it much more difficult for someone to access and compromise.
+
+\subsection{Defining security model}
+\textbf{Threat Model 1 - The adversary has access to my machine.} Simply password protected files are not enough here, the private keys and state of the signature must be encrypted with 256-bit security. The security then depends on safety of the machine's hardware. The solution would be straight forward n such case, that private key file should be saved in a third party service like a cloud service or in a server where user can login with  a password. If we keep our private keys on a public cloud, we need to encrypt the file with 256 bit security.
+
+\textbf{Threat Model 2 : Adversary has access to the third party service -cloud or server, where you save the file.} In such threat model we can save the private keys in a file and keep it encrypted with 256 bit security in either anther server or the cloud. This 256 bit key should either be saved in another file only user has access to like password saved in his phone or a flash drive. The security of this key depends on how user keeps the encryption keys.
+
+\textbf{Threat Model 3 : Adversary can break down the entire hardware system} In such threat model, like in case where a fire burns down all machines that contain the private keys, we can save the private keys in a file in a flash drive, and keep this flash drive in a bank vault. This is what companies do, to keep a backup of all valuable keys in a hard drive and trust a bank vault in every few days. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+    
+    
+
